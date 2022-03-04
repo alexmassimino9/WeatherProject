@@ -1,4 +1,5 @@
 const express = require('express')
+const { rmSync } = require('fs')
 const app = express()
 const port = 3000
 const https = require('https')
@@ -15,13 +16,17 @@ app.get('/', (req, res)=>{
             const weatherData = JSON.parse(data)
             const location = weatherData.name
             const weatherId = weatherData.weather.id
-            const icon ;
-            console.log(location)
-            res.write('The location is ' + location)
+            const iconId = weatherData.weather[0].icon
+            const iconUrl =  'https://openweathermap.org/img/wn/'+ iconId +'@2x.png'
+            
+            res.setHeader('Content-Type', 'text/html')
+            res.write('The location is ' + location )
+            res.write("<img src='" + iconUrl+ "'/>")
             res.send()
             
         })
-
+       
+            
     })
    
     
